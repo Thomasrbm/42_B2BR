@@ -1,0 +1,204 @@
+Hashage et chiffrement
+
+
+
+
+
+
+REGEX :
+
+
+regular expression
+
+
+
+
+filtre qui accepte que des chaine de char qui remplisse les condition et rejtte tout le reste
+
+
+
+
+
+========================================================================================================================================
+========================================================================================================================================
+========================================================================================================================================
+========================================================================================================================================
+========================================================================================================================================
+
+
+							HASHAGE
+
+
+
+
+Hashage = unidirectionnel =  tu hash tu ne peux pas revenir en arriere. le serveur n aura jamais ton mot de passe en clair
+
+===> pb de collision car nombre de hash fini  MAIS casi impossible car trop de possibilite meme si finies
+
+
+l algo le plus connu = SHA  Secure Hash Algorithm (NSA  U.S)
+
+
+
+
+bcrypt =>
+
+
+
+LE SEL : rajoute une petite suite aleatoire au mdp du user pour empecher que 2 gens avec le meme mdp aient le meme hash
+
+
+
+LENT : bcrypt est lent donc si tu veux use une attaque pour chercher le hash de bcrypt tu vas pouvoir generer bcp moins de hash = freint.
+
+
+
+
+
+*  de taille fixe ( quel que soit l entree la sortie fait x bits)
+* unidirectionnel (trop d entree pour moins de sortie, trop d aleatoire etc)
+
+
+
+
+
+
+
+							USAGE
+
+
+
+
+* serveur = ne stock jamais en clair MAIS peut savoir si ton mdp est le bon quand tu le retap (si server hack pas de pb)
+
+
+* verification d integrite (si on a pas modif le fichier)
+
+
+* block chain (fait qu on peut pas modifier car ca changerait le hash)
+
+
+========================================================================================================================================
+========================================================================================================================================
+========================================================================================================================================
+========================================================================================================================================
+========================================================================================================================================
+
+
+
+								CHIFFREMENT
+
+
+
+
+
+Chiffrement = stocker de maniere chiffre mais possibilite de retrouver la donnee en dechiffrant
+
+===> pour la communication / transmission de donne  :  echange de clef
+
+
+
+algoe le plus connue = RSA
+
+on met du padding dans la data envoye pour brouiller la data (pck on peut voir how much est envoyer juste on sait pas ce que c est. paddimg = limite l inference possible)
+
+
+
+
+
+
+
+
+
+
+
+			VERIFICATION D IDENTITE (anti faux serveur)  ---> pour ca que ssl a des instance de check
+
+
+
+
+
+	communication =  tu recupere la clef publique du server (ssl)  ->  il recupere et dechiffre -> il chiffre sa reponse avec ta clef et tu la dechiffre.
+
+
+
+
+
+
+
+Clef pub/privee  : cree quand server setup son open ssh.  pareil pour le client.
+
+chacun ajoutera la clef publique de l un dans ses known host
+
+
+donc quand tu te connected = le server te fait un challenge avec ta key pub et tu la dechiffre avec la private. lui il a le result en clair il l a chiffre et tu lui re renvoit en clair.
+Il sait que c est bien toi.
+
+
+Mtn le contenu : c est pas ces clefs permanentes use pour chiffre. on cree des temporaire. chaque echange est secur et meme si on recup ta clef prive on aura pas l echange que tu as eu avant
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                ECHANGE DE SECRET Diffie-Hellman 
+				(si on recup ta clef prive permanente on aura pas les anciens messages)
+
+
+
+
+====> 2 valeur standarisee sont use.	generateur et le modulus  (g et p)
+
+on genere a et b ( un chacun)  on fait A = g^a mod p   et B = g^b mod p
+
+donc chacun chsoit un secret et l encrypte avec les generateur connues
+
+
+et donc le calcul inverse donne un secret partage 
+
+
+
+
+
+g = 5        ← générateur (standard)
+p = 23       ← grand nombre premier (modulus, standard)
+
+
+
+	SECRETS DE BASE
+
+
+Client (toi)  : a = 6
+Serveur       : b = 15
+
+
+	SECRETS ENVOYES
+	
+Client (toi)  : A = 5^6 mod 23 = 15625 mod 23 = 8
+Serveur       : B = 5^15 mod 23 = 30517578125 mod 23 = 2
+
+	
+	
+	
+	
+	SECRET PARTAGEE
+
+
+
+S = B^a mod p = 2^6 mod 23 = 64 mod 23 = 18
+S = A^b mod p = 8^15 mod 23 = 30517578125 mod 23 = 18
+
+
+
+
+
+
