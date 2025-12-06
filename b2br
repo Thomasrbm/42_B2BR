@@ -1,0 +1,123 @@
+les .d ???
+
+
+
+pam ?
+
+
+
+le fichier /proc/cpuifno  diff virtual et physical core
+
+
+
+
+
+mariadb : mysql --version => la ou stock les donnees
+ls /var/www/html : pour montrer wp => le cms qui facilite le designe du blog
+sudo systemctl status lighttpd  => recoit les requete de connexion et donne les pages a afficher
+php -v  => le code 
+sudo systemctl status redis-server
+
+
+
+
+
+
+
+LE WP : http://localhost:8080/
+
+
+
+
+
+lighttpd : server web ultra opti pour etre rapide et consommer peu de cpu et ram
+
+
+
+Wordpress :
+
+on install wget pour dowload fichier depuis le web (sans packet manager apt)
+
+avec un dl wp dans /var/www
+
+
+
+
+pck maria db est pas safe on fait : sudo mariadb-secure-installation
+c est un script par defaut a exec qui permet de securiser l accest et de remove lea account unused
+
+Remove anonymous users →  debase permet de test mais pas secure de le permettre faut creer user pour y rentrer
+
+
+Disallow root login remotely → permet meme pas de pouvoir hack le root a distance car si a distance interdit meme pour le root
+
+Remove test database and access to it → pck dangereux point d acces mis de base
+
+Reload privilege tables now → maj ce quon vient de faire pour que ca marche direct
+
+
+
+
+
+CREATE DATABASE wp_database;
+
+SHOW DATABASES;
+
+CREATE USER 'throbert'@'localhost' IDENTIFIED BY 'Qweqwe123*';  
+
+GRANT ALL PRIVILEGES ON wp_database.* TO 'throbert'@'localhost'; donne les droit a l user sur la db
+
+FLUSH PRIVILEGES;  maj les perm direct
+
+exit
+
+
+SHOW DATABASES;
+SELECT User, Host FROM mysql.user;
+SHOW GRANTS FOR 'throbert'@'localhost';
+
+
+php language de prog pour le back vers front : wp utilise ca
+
+
+
+
+
+
+
+
+Redis : serveur de cache memoire
+
+de base a chaque visite du site le serveur fait des requetes sql pour aller fetch tout les infos du site. 
+
+la redis les stock et enleve la partie requete et donc opti le traffic pour les infos les plus recurrentesgi
+
+
+
+
+
+
+
+
+
+
+Redis stock les resultt alors que mariad db stock en brut dans les table etc appel plus long
+
+redis-cli
+
+
+KEY *  liste toutes les choses mise en cache
+
+FLUSHALL
+
+
+
+
+
+
+
+
+
+
+
+

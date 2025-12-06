@@ -1,0 +1,194 @@
+
+
+
+awk = acronyme des createur (alfred etc.) 
+
+prend fichier et exec commande sur chaque ligne.
+
+split les ligne en ac av.   $  indique la "colonne" / l arg de la ligne
+$0 = ligne entiere
+
+
+
+RAM
+
+{printf("(%.2f%%)\n", $3/$2*100)}'
+
+%.2f = nombre à 2 décimales
+%% = pour afficher un symbole %
+produit en crois pour avoir le ration d usage en pourcent
+
+
+
+
+Disk memory Usage
+
+
+
+df -m | grep "/dev/" | grep -v "/boot" | awk '{use += $3} {total += $2} END {printf("(%d%%)\n"), use/total*100}'
+
+df = disk file sytem  usage espace disk
+-m en megabyte
+
+on veut que les ligne en /dev car lignes correspon au vria prition du disk physique
+
+tmpfs = fichier temp pour RAM
+udev = gestionnaire perif
+/run stock les pid socket etc pdt le program en RAM
+
+fichier virtuel car pas reellement sotcker sur le disk
+
+grep -v "/boot"   exclue si y a /boot  car pas partie du storage user c est a partsur autre disk
+
+
+on definit use et total en var (donc add chaque arg 3 et 2 de chaque ligne dedans)
+
+END = fin des def ppuir printf avec produit en croix
+
+
+
+
+
+
+
+CPU usage percentage
+
+
+vmstat awk '{print 100 - $15}'
+
+15 est le id = idle si a 100 non used. donc 100 - ca donne le pourcent 
+
+vmstat = stat du system Montre la mémoire, le swap, les processus et l’utilisation CPU.
+
+
+print le 15 arg donc id
+
+
+
+
+
+Last reboot
+
+
+who -b | awk '$1 == "system" {print $3 " " $4}'
+
+who -b donne direct
+awk pour le format demander par consigne
+
+
+
+
+
+LVM active
+
+if [ $(lsblk | grep "lvm" | wc -l) -gt 0 ]; then echo yes; else echo no; fi
+
+gt = greater than 0 
+
+
+
+
+
+
+TCP connections (nombre)
+ss -ta | grep ESTAB | wc -l
+
+ss (remplace netstat) = montre connection au resaeu et socket ouverte
+-t = tcp = le protocole de ocmmunication secur (socket = l interface ip etc)
+-a toutes meme celles qu on ecoute
+
+ESTAB = active
+
+ssh en cree une par exmple (il s appuie dessus)
+
+
+
+
+
+
+
+
+
+
+
+nombre user
+
+users | wc -w
+
+
+compte mot pas ligne
+
+
+
+
+
+IP adress & MAC
+
+
+IP=$(ip -4 addr show dev eth0 | grep inet | awk '{print $2}' | cut -d/ -f1)
+MAC=$(ip link show dev eth0 | grep "link/ether" | awk '{print $2}')
+echo "IP $IP ($MAC)"
+
+
+
+IP=$(ip -4 addr show dev enp0s3 | grep inet | awk '{print $2}' | cut -d/ -f1)
+MAC=$(ip link show dev enp0s3 | grep "link/ether" | awk '{print $2}')
+echo "IP $IP ($MAC)"
+
+
+ip addr show dev enp0s3 = montre toutes les adrees ip sur l interface  enp0s3
+
+enp0s3 interface = combo ip (sur reseau ) adresse max (id carte mere unique matereil)
+enp0s3 = nom Carte Ethernet réelle (que jai chopper auparavant avec  ip link
+le LOOPBACK c est pour se parler a soi donc cest pas la vrai interface pour localhost)
+
+
+-4 pour ipv4 
+grep inet pour avoir que la ligne INET avec marque l ip
+awk pour avoir l arg2 
+
+cut :  pour retirer le useles aores l ip
+-d/  delimiter est / donc on a deux arg 10.0.2.15 et 24 apres le / on prend le 1er
+
+ et -f1 prend le 1er
+
+link pour la ou y a mac puis same principe
+
+
+
+
+NOMBRE COMMANDE SUDO
+
+journalctl -q _COMM=sudo | grep COMMAND | wc -l
+
+journalctl donne les logs du systemd (le gestionnaire des distrib linux, dmarre l orde, les services ssh cron etc etc) ca donne tout ca ok re
+
+-q supprime le message moche de debut
+
+_COMM = nom de la commande qui a créé l’entrée du journal. 
+donc _COMM=sudo  filtre les commande pour l entree sudo (tout les truc avec sudo dedans)
+
+GREP cmd pour les commande  et on compte
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+head -n 2 /etc/os-release  = donne os + version
+
+
+
+
+Pour bien montrer le cpu load : yes > /dev/null sur la vm puis ./monitoring dans le ssh
+
+
+

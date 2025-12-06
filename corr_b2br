@@ -1,0 +1,499 @@
+======================================================================
+
+
+
+
+
+cd /sgoinfre/goinfre/Perso/throbert/B2BR_BONUS/   
+sha1sum B2BR_BONUS.vdi   
+
+
+diff -u <(echo "") signature.txt
+
+
+
+.vdi y a tous le system de fichier  ca rpz l etat actuel de la vm
+
+
+
+hash donne chaine taille fixe
+fichier legerement different donne hash total diff (irreversible, peut trouver contenu de base avec hash)
+
+meme fichier donne toujours meme hash
+
+
+
+
+
+
+
+======================================================================
+
+
+
+Une vm
+
+emulation logicielle d un pc
+
+si la vm plante ou est infecter ton pc est senser etre safe
+
+l hyperviseur permet de l ancer la vm, il alloue les ressource etc.
+
+iso permet de mettre un os
+
+
+Oracle type 2 marche par dessus un OS
+type 1 = natif pas d os avant
+
+
+
+
+======================================================================
+
+Rocky ca vient de Red hat boite privee
+
+pas le meme gestionnaire de packet (DNF , apt)
+
+Rocky c est entreprise et server
+
+
+Debian c est communautaire et pour le gens meme non pro (particuliers)
+
+
+
+======================================================================
+
+
+
+
+
+apt = packet manager purement ligne de texte
+aptitude = semi grapfique + resolution de conflit integre
+
+AppArmor = permet de confinier des applis et les limite l acces de services a uniquement certains fichier genre nginx peut lire que ...
+
+
+SELinux = plus complex use des etiquettes et labels plus granulaire plus puissant
+
+
+
+
+Lvm = logical volume manager  
+
+permet de creer des volume logique pour partitionner le disk
+
+PV :  volume physique = vrai disk sda
+VG : lvm group
+logique volume c est les /home /var etc   = c est la parition virtual (le fait d avoir decoupe le sda comme on veut) 
+
+
+
+Si une partition a un pb le reste du sda est safe, bien ranger aussi
+
+
+/boot : les fichiers pour demmarer le kernel
+/ : tous les autre rep sont bien
+SWAP : zone pour la ram
+/home  : fichier perso desktop etc
+/var : donnees variable qui vont changer de taille : dbs, caches logs
+/srv : service, potentielllemt sites
+/tmp : tempo
+/var/log : logs specitifiquemtn
+
+
+
+
+
+
+
+======================================================================
+
+
+
+
+
+ssh throbert@localhost -p 8042
+
+
+
+
+======================================================================
+
+
+
+
+politique de mdp :
+
+
+
+nano /etc/login.defs
+
+
+nano /etc/pam.d/common-password
+
+pam  = packet qui permet de manage les password 
+
+ucredit=-1  Capital letter 1 min
+dcredit=-1  1 chiffre
+lcredit=-1  1 lowercase
+
+maxrepeate = pas plus de 3meme char cons
+
+pas username
+
+difok = 7 diff char from precedent
+que la police soit la meme pour le root
+
+
+
+fichier .d = config
+
+
+
+
+
+
+
+
+
+
+======================================================================
+
+
+
+
+
+no graphical : ls /usr/bin/*session
+
+si y avait gnome ou autre voudrait dire que grahpique debus c est juste pour l D-BUS = pour l os gestionnaire de processus
+
+
+
+
+
+======================================================================
+
+
+
+sudo ufw status 
+sudo service ufw status
+
+
+
+ufw = pare feu il examine les connexion entrante et sortante
+il a des rules preset de secur et bloque les truc chelou
+
+peut allow des ports precis
+
+
+
+
+
+
+
+
+======================================================================
+
+
+
+
+sudo service ssh status
+
+
+secure shell 
+
+connexion chiffree avec un terminal
+
+
+shell distant qui peut interragir avec un serveur
+donc pouvoir entrer des commande depuis un reverse shell
+
+
+
+
+
+
+
+======================================================================
+
+uname -v
+
+
+======================================================================
+
+
+getent group sudo user42
+
+
+
+
+
+
+sudo adduser 
+
+cat /etc/passwd
+
+
+
+sudo addgroup evaluating
+
+
+sudo adduser name_user evaluating
+
+getent group sudo evaluating
+
+
+=======================================================
+
+pour check : hostname 
+
+
+
+
+sudo nano /etc/hostname  pour changer
+sudo nano /etc/hosts
+
+
+
+
+sudo reboot
+
+
+hostname
+
+
+
+=======================================================
+
+which sudo
+
+sudo adduser name_user sudo
+
+getent group sudo
+
+
+nano /etc/sudoers.d/sudo_config : pour les rules du mdp et les logs sudo
+
+3 try pour mdp sudo
+
+requiertty = terminal Teletype sudo doit etre use avec terminal pas par script shell
+
+secure path = le path pour les commande sudo , pour pas exec des truc pas safe d ailleurs
+
+
+
+
+
+
+
+
+les logs
+
+
+
+
+cd
+cd /var/log/sudo
+ls
+cat sudo_config
+
+
+
+
+
+
+
+dpkg -s ufw
+
+sudo service ufw status
+
+sudo ufw status numbered
+
+
+
+
+
+
+
+
+
+
+sudo ufw allow 8080
+
+
+sudo ufw status numbered
+
+
+sudo ufw delete num_rule
+
+
+
+sudo ufw status numbered
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+which ssh
+
+sudo service ssh status
+
+
+
+
+
+
+sudo crontab -u root -e
+
+
+*/10 * * * * bash /etc/cron.d/monitoring.sh
+
+  m h jours du mois mois jours de la semaine
+
+*/chiffre pour mettre
+
+
+ nano /etc/cron.d/monitoring.sh
+
+
+
+=============================================================
+
+
+mariadb : mysql --version => la ou stock les donnees
+ls /var/www/html : pour montrer wp => le cms qui facilite le designe du blog
+sudo systemctl status lighttpd  => recoit les requete de connexion et donne les pages a afficher
+php -v  => le code 
+sudo systemctl status redis-server
+
+
+
+
+
+
+=============================================================
+
+
+lighttpd : server web ultra opti pour etre rapide et consommer peu de cpu et ram
+
+
+nano /etc/lighttpd/lighttpd.conf
+
+=============================================================
+
+Wordpress :
+
+on install wget pour dowload fichier depuis le web (sans packet manager apt)
+
+avec un dl wp dans /var/www
+
+
+=============================================================
+
+pck maria db est pas safe on fait : sudo mariadb-secure-installation
+c est un script par defaut a exec qui permet de securiser l accest et de remove lea account unused
+
+Remove anonymous users →  debase permet de test mais pas secure de le permettre faut creer user pour y rentrer
+
+
+Disallow root login remotely → permet meme pas de pouvoir hack le root a distance car si a distance interdit meme pour le root
+
+Remove test database and access to it → pck dangereux point d acces mis de base
+
+Reload privilege tables now → maj ce quon vient de faire pour que ca marche direct
+
+
+=============================================================
+
+
+CREATE DATABASE wp_database;
+
+SHOW DATABASES;
+
+CREATE USER 'throbert'@'localhost' IDENTIFIED BY 'Qweqwe123*';  
+
+GRANT ALL PRIVILEGES ON wp_database.* TO 'throbert'@'localhost'; donne les droit a l user sur la db
+
+FLUSH PRIVILEGES;  maj les perm direct
+
+exit
+
+
+SHOW DATABASES;
+SELECT User, Host FROM mysql.user;
+SHOW GRANTS FOR 'throbert'@'localhost';
+
+
+
+=============================================================
+
+php language de prog pour le back vers front : wp utilise ca
+
+
+
+=============================================================
+
+
+
+
+Redis : serveur de cache memoire
+
+de base a chaque visite du site le serveur fait des requetes sql pour aller fetch tout les infos du site. 
+
+la redis les stock et enleve la partie requete et donc opti le traffic pour les infos les plus recurrentesgi
+
+
+
+
+
+
+
+
+
+
+Redis stock les resultt alors que mariad db stock en brut dans les table etc appel plus long
+
+redis-cli
+
+
+KEY *  liste toutes les choses mise en cache
+
+FLUSHALL
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
