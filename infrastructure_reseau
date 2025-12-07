@@ -1,0 +1,161 @@
+
+
+					      FIBRE
+
+
+
+
+https://www.youtube.com/watch?v=BIhSb6YMQug
+
+
+quand lumiere passe = 1 sinon 0
+(pas vraiment eteint mais plutot on regarde l intensite)
+
+
+
+la lumiere rebondit dans la fibre et ne sort jamais mais on peut perdre l intensite donc 
+y a des amplifciateur tout les 100km 
+
+
+
+					multiplexage
+			
+			
+			
+pour pas avoir de chauvechement y a des crenaux reserve ( 10nano sec pour user 1 etc , 10 a 20 pour 2 etc)
+
+ou encore des couleurs
+
+
+
+
+
+
+
+les machine envoit les donne aux routeur qui transfo en elec/lumiere etc
+
+
+
+			===================================================
+
+
+
+				FAI (fournisseur d acces internet) : 
+				
+				
+				
+fournit :
+
+- la boxe et le convertisseur numerique/analogique approprie a ton reseau
+- les cables
+- les megas routeurs
+- possede des dns
+- a des parefeux
+
+
+
+
+
+
+
+
+			 ============================================
+			 
+			 
+			 
+			 
+			 
+			 		    BACKBONE
+
+
+
+
+les cables sous marins ET terrestre de longue distance ultra haut debit
+
+
+Exemple "Amitié" (France ↔ USA), 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			 ============================================
+			 
+			 
+			 		     IXP
+			 
+			 	
+			 
+
+
+Internet exchange point
+			 
+			 
+			 
+			 
+			 le point de ralliement des Gafam et FAI
+			 
+			 
+			 
+			 
+petits site aussi car OVH ou Cloudflare y sont.
+
+
+
+
+
+
+
+
+
+			 
+			 
+			 
+			 ============================================
+
+
+
+
+					DATA CENTERS
+
+
+
+
+la ou y a tous les serveurs 
+
+
+system de refroidissement
+
+
+securite physique (surveilles etc)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

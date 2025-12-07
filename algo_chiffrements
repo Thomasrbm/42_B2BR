@@ -1,0 +1,335 @@
+
+			RSA (ssh un peu, ssl un peu, github) ==> le plus lourd pour pas grand choses
+			 (nombre premier et factorisation, modulo)
+
+
+
+	- p et q 2 nombre premier tres grand = multiplier deux nombres premiers est facile
+	
+	p = 5 et q = 11
+	
+	-  n resultat = retrouver les nombre avec le resultat est difficile, (problème de factorisation).
+	
+	n = 55
+	
+	- ϕ(n) = nombres entiers positifs qui n ont pas de facteurs comment avec n entre 1 et n 
+	 facteur = nombre qui peut diviser un autre sans restes
+	 partager facteur = avec un diviseur qui divise sans reste les 2 chiffre. genre 6 et 9 ont 3 comme facteur
+	
+	n = 55. de 1 a 55
+	facteur de 55 = 1,5,11,55 
+	5 et 11 sont les seuls interessant car 1 partager par tous
+	55 seul pas 55 ici (car pas de nombre au dessus)
+	
+	
+	
+	ϕ(n) = entre 1 a 54.  11 22 33 44 sont facteur par 11. = 4
+			     5 10 15 20 25 30 35 40 45 50 par 5 = 10
+	54 - 14 = 40 = nombre	qui sont ni facteur de 5 ni 11 ni 55s   
+	
+	
+	ϕ(n) garentie qu on pourra CHIFFRER puis DECHIFFRER 
+	
+	on prend 2 chiffre et on construit un cadenas avec
+	
+	boite cadenas de 55 crans (comme si le message etait dans le cadenas lui meme stocker sur 1 crans)
+	
+	y a des cases bloquante si on met truc la le cadenas marche plus car elle bloque des verous deja 
+	used 	(facteur partagees) (en gros ca nique le calcul d apres ces nombre)
+	
+	
+	ϕ(n) = nombre de crans surs
+	
+	nombre de crans de crans de serrure speciaux = 40 c est la periodicite.
+	
+	Message part du crans 9
+	
+	e = clef publique pour fermer ( tourne de x crans)  toujour allier a modulo taille cadenas
+	
+	d = clef qui revient a la base 
+	
+	9 puissance 7 crans (pour dure a dechiffrer )  mod 55 pour ramener entre 0 et 55 taille boite
+	
+	on arrive cran 4 ( fait plusieur tours potentiellement)
+	
+	
+	4 puissance 23  mod 55 revient sur cran 9 
+	
+	
+	
+	
+	- e est parmis ces 40 chiffres + doit avoir aucun facteur avec 40 = on prend 7
+	doit avoir aucun facteur car sinon d sera introuvable
+	
+	
+	
+	- d = inverser c ϕ(n) de e  = a 1 . et inferieur a e.
+	donc ici 23
+	
+	7 x 23 = 161.    161 mod 40 = 1
+	
+	
+	
+	- M message = les message sont en ascii / binaire.  ici 9.
+	
+	- C chiffrement =         C = M puissance e modulo n
+	 
+	 9 puissance 7 = 4 782 969      modulo 55   = 4     C = 4
+	
+	
+	message 9 devient 4
+	
+	- Dechiffrement = M = C puissance d  modulo n
+	
+	4 puissance 23 = 7,036874418×10¹³     7,036874418×10¹³ mod 55 = 9
+	
+	s
+	C redevient 9
+	
+	
+	normalement le message est suite binaire qu on convertit
+	
+	
+	
+	
+	
+
+
+			AES (Surtout wifi et SSL, google)
+			
+				(transfo matriciel)
+
+bloc 255 (8bit)
+
+	M = | 0x12  0x34 |
+	    | 0xAB  0xCD |
+
+	K = | 0xF0  0x0F |
+    	    | 0xAA  0x55 |
+
+
+
+etape 2 table de substitution : S-box (exemple) : 0→5, 1→8, 2→3, 3→0, 4→9, 5→1, 6→7, 7→2, 8→6, 9→4
+
+chaque chiffre vaut un autre chiffre
+	
+	SubBytes (M) = | 0x83   0x09 |
+              	       | 0xEF   0xDA |
+
+
+
+           
+etape 3 : decalage de ranger
+
+| a  b |      | a  b |
+| c  d |  →   | d  c |
+
+
+Rangée 0 (ligne 0) : pas de décalage
+
+Rangée 1 (ligne 1) : décale d’1 position vers la gauche
+
+Rangée 2 (ligne 2) : décale de 2 positions
+
+Rangée 3 (ligne 3) : décale de 3 positions etc.
+               
+               
+
+SR = | 0x09  0x83  |
+     |  0xEF 0xDA  |
+
+
+
+Étape 4 Multiplie la matrice par une autre mais une colonne a la fois
+
+
+la matrice multipliante = | 1   2 |
+                   	  | 3   1 |
+
+
+Colonne 1 :
+| 1   2 |   | 0x09 |   =   | 1*0x09 + 2*0xEF |
+| 3   1 | x | 0xEF |       | 3*0x09 + 1*0xEF |
+
+1*0x09 = 0x09
+2*0xEF = 0x1DE  mod256 = 0xDE
+3*0x09 = 0x1B
+1*0xEF = 0xEF
+
+Ligne 1 = 0x09 + 0xDE = 0xE7
+Ligne 2 = 0x1B + 0xEF = 0x10A mod256 = 0x0A
+
+Colonne 1 = | 0xE7 |
+            | 0x0A |
+
+
+Colonne 2 :
+| 1   2 |   | 0x83 |   =   | 1*0x83 + 2*0xDA |
+| 3   1 | x | 0xDA |       | 3*0x83 + 1*0xDA |
+
+1*0x83 = 0x83
+2*0xDA = 0x1B4 mod256 = 0xB4
+3*0x83 = 0x189 mod256 = 0x89
+1*0xDA = 0xDA
+
+Ligne 1 = 0x83 + 0xB4 = 0x137 mod256 = 0x37
+Ligne 2 = 0x89 + 0xDA = 0x163 mod256 = 0x63
+
+Colonne 2 = | 0x37 |
+            | 0x63 |
+
+
+
+
+MixColumns (MC) = | 0xE7   0x37 |
+                   | 0x0A   0x63 |
+
+
+INVERSION
+
+
+	
+	
+	
+
+
+		ECC (Cloudflare (heberge gpt, canvas), nordvpn)
+		
+				(courbe elliptique)
+		
+		
+		SERT PAS A CHIFFER MAIS A CREER UNE CLEF PARTAGEE
+
+
+		
+Une courbe ECC est définie par :
+
+	une équation (ex : y² = x³ + ax + b)
+	un point P de base.
+	
+	
+	tout le monde a acces a cette courbe elle est donner dans l algo de base
+	
+	
+
+Étape 1 — Alice (navigateur) choisit un secret
+
+
+  Elle choisit un nombre privé (entier de 256 bit) :
+
+   a=7
+
+  Elle calcule son point public :
+
+    A c est le point publique = point sur la courbe 
+    
+    A = a×P = 7P
+
+  Elle envoie A à Bob.
+
+
+
+
+
+
+
+Étape 2 — Bob(cloudflare) choisit un secret
+
+  Il choisit un nombre privé :
+
+  b=11
+
+  Il calcule son point public :
+
+
+  B=b×P=11P
+
+  Il envoie B à Alice.
+
+
+
+Étape 3 — Alice calcule la clé publique
+
+  Elle calcule :
+
+
+  K1 = a×B = 7×(11P) =77P
+
+
+Étape 4 — Bob calcule la clé publiques
+
+Il calcule :
+
+K2 =  b×A  =11×(7P) = 77P
+		
+		
+	KA​=KB​=77P
+	
+	
+	
+	
+	se sont juste envoyer leur clef  publique et en mixant avec leur clef priver on la meme clef 
+	partagee
+	
+	
+	
+	
+	
+	
+
+		
+prend en entrer :
+
+- une clef partage comme de ECC
+- un nonce (valeur unique), Number Used Once (gene auto chaque message)
+- un index entre chaque msg gere par chacha (pour rendre vraiment unique chaque msg)
+
+20 round (20x le calcul)
+
+on mix les 3 valeur dans pleins de sens etc
+ 
+=> donne un keystream
+
+
+
+Pour : Hello 
+
+h = 0x68
+e = 0x65
+l = 0x6C
+l = 0x6C
+o = 0x6F
+
+cipher[i] = hello[i] XOR keystream[i]
+
+
+XOR = 1 si bit different 0 si identique
+	
+	
+XOR est reversible : 
+
+x	k	x XOR k
+
+0	0	0
+1	0	1
+0	1	1
+1	1	0
+
+Maintenant, refais XOR avec k sur le résultat :
+
+(x XOR k)	k	(x XOR k) XOR k
+
+0		0	0
+1		0	1
+1		1	0
+0		1	1
+
+
+	
+	
+	
+
+	
+		ChaCha (WhatsApp, nordvpn)
+		
+			(XOR)

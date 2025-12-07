@@ -31,6 +31,13 @@ filtre qui accepte que des chaine de char qui remplisse les condition et rejtte 
 
 
 
+Carte d identite d un fichier / chaine de char
+
+
+
+
+
+
 Hashage = unidirectionnel =  tu hash tu ne peux pas revenir en arriere. le serveur n aura jamais ton mot de passe en clair
 
 ===> pb de collision car nombre de hash fini  MAIS casi impossible car trop de possibilite meme si finies

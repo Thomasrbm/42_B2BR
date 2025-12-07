@@ -1,0 +1,41 @@
+
+
+
+
+Unite de data de taille fixe
+
+
+une photo est divise en packet. 
+
+
+
+
+on fait ca pour aller plus vite.  + multi lateral.
+
+
+Sinon si en envoyait tous les bits d un coup . sachant que le packt passent par pleins de
+server avant le destination final. et bien on pourrait pas utiliser la ligne de transmission
+pdt qu elle est deja use.
+
+
+
+https://www.youtube.com/watch?v=KjD3KANH-xc&t=208s  1m40
+
+
+
+
+
+ils sont numerote en sequence (1/30 , 2/30 etc) et le pc les remet en ordre une fois recus
+
+
+
+
+
+il a :
+
+
+* header : ip destination et depart
+
+* paylod : la data
+
+* trailer : qui check erreeur etc
